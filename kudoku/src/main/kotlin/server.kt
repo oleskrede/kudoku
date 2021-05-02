@@ -27,28 +27,28 @@ fun main() {
 
     val inputTestCase =
         """
-            1x8xxxx3x
-            2xx1x5xxx
-            xx7x89154
-            x8x59xx4x
-            5xx4x3xx8
-            x4xx18x2x
-            81396x4xx
-            xxx3x7xx2
-            x2xxxx3x6
+            xx46xxxx5
+            3xxx2xxxx
+            58x9xxxx1
+            1278xxx46
+            xxxxxxxxx
+            65xxx2918
+            9xxxx8x64
+            xxxx9xxx3
+            2xxxx71xx
         """.trimIndent()
 
     val inputTestSolution =
         """
-            158674239
-            294135687
-            637289154
-            382596741
-            571423968
-            946718523
-            813962475
-            469357812
-            725841396
+            714683295
+            396125487
+            582974631
+            127859346
+            849361572
+            653742918
+            935218764
+            471596823
+            268437159
         """.trimIndent()
 
     val testCase = stringToBoard(inputTestCase)

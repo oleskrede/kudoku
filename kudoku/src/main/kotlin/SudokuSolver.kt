@@ -1,42 +1,40 @@
 class SudokuSolver(val board: Board) {
     fun solve() {
-        print("Solving...")
-        while (prunePossibilites()) {
-            setValueInCellsWithSinglePossibility()
-            if (board.isSolved()) break
-        }
-        println("\nSolving complete!")
-    }
-
-    private fun prunePossibilites(): Boolean {
-        var pruned = false
-
-        pruned = pruned || pruneSubsets(board.subGridsListFlattened)
-        pruned = pruned || pruneSubsets(board.rows)
-        pruned = pruned || pruneSubsets(board.columns)
-
-        return pruned
-    }
-
-    private fun setValueInCellsWithSinglePossibility() {
-        for (cell in board.cells) {
-            if (cell.value == null && cell.possibilities.size == 1)
-                cell.value = cell.possibilities.first()
+        while (board.hasUnsolvedCells()) {
+            prunePossibilites()
         }
     }
 
-    private fun pruneSubsets(subsets: List<List<Cell>>): Boolean {
-        var pruned = false
+    private fun prunePossibilites() {
+        pruneSubsets(board.subGrids)
+        pruneSubsets(board.rows)
+        pruneSubsets(board.columns)
+    }
+
+    private fun pruneSubsets(subsets: List<List<Cell>>) {
 
         for (subset in subsets) {
-            val solvedValues = board.getSolvedValuesForCells(subset)
+            var solvedValues = board.getSolvedValuesForCells(subset)
+
+            // Prune away conflicts in the subset. I.e. a cell cant have a value already used in the subset
             for (cell in subset) {
-                if (cell.value == null) {
-                    pruned = pruned || cell.prunePossibilities(solvedValues)
+                if (cell.value == null && cell.pruneCandidates(solvedValues)) {
+                    if (cell.attemptToSolve())
+                        solvedValues = board.getSolvedValuesForCells(subset)
+                }
+            }
+
+            // Prune for cases where a value only has one possible placement
+            for (value in 1..9) {
+                if (value !in solvedValues) {
+                    val potentialCellsForValue = subset
+                        .filter { it.value == null && it.valueCandidates.contains(value) }
+                    if (potentialCellsForValue.size == 1) {
+                        potentialCellsForValue.first().value = value
+                        solvedValues = board.getSolvedValuesForCells(subset)
+                    }
                 }
             }
         }
-
-        return pruned
     }
 }
