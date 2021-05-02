@@ -1,2 +1,2 @@
 # kudoku
-A Sudoku solver written in Kotlin
+A [Sudoku](https://en.wikipedia.org/wiki/Sudoku) solver written in Kotlin

@@ -59,6 +59,11 @@ fun main() {
     println("Test solution:")
     println(testSolution.toPrettyString())
 
+    val sudokuSolver = SudokuSolver(testCase)
+    sudokuSolver.solve()
+    println("SudokuSolver solution:")
+    println(sudokuSolver.board.toPrettyString())
+
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         routing {
             get("/") {

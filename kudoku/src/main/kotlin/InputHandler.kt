@@ -19,31 +19,12 @@ class InputHandler {
          """
          */
         fun stringToBoard(input: String): Board {
-            val rows = input.split("\n")
+            val board = input.replace("\n", "")
+                .map { if (it.isDigit()) Cell(getNumericValue(it)) else Cell() }
 
-            validateRows(rows)
+            if (board.size != 81) throw IllegalArgumentException("Expected 81 input cells, but got ${board.size}")
 
-            val board = mutableListOf<List<Cell>>()
-            for (row in rows) {
-                val cellRow = mutableListOf<Cell>()
-                for (c in row) {
-                    if (c.isDigit()) cellRow.add(Cell(getNumericValue(c)))
-                    else cellRow.add(Cell())
-                }
-                board.add(cellRow)
-            }
             return Board(board)
-        }
-
-        private fun validateRows(rows: List<String>) {
-            if (rows.size != 9) {
-                throw IllegalArgumentException("Input should contain 9 rows, but contains ${rows.size} rows.")
-            }
-            for (row in rows) {
-                if (row.length != 9) {
-                    throw IllegalArgumentException("Each row should contain 9 chars, but the row: '$row' contains ${row.length} chars.")
-                }
-            }
         }
     }
 }
