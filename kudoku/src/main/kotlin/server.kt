@@ -27,15 +27,15 @@ fun main() {
 
     val inputTestCase =
         """
-            xx46xxxx5
-            3xxx2xxxx
-            58x9xxxx1
-            1278xxx46
-            xxxxxxxxx
-            65xxx2918
-            9xxxx8x64
-            xxxx9xxx3
-            2xxxx71xx
+            xx53xxxxx
+            8xxxxxx2x
+            x7xx1x5xx
+            4xxxx53xx
+            x1xx7xxx6
+            xx32xxx8x
+            x6x5xxxx9
+            xx4xxxx3x
+            xxxxx97xx
         """.trimIndent()
 
     val inputTestSolution =

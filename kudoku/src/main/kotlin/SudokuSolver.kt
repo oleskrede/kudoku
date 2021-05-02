@@ -1,17 +1,20 @@
 class SudokuSolver(val board: Board) {
     fun solve() {
         while (board.hasUnsolvedCells()) {
-            prunePossibilites()
+            if (!prunePossibilites()) break
         }
     }
 
-    private fun prunePossibilites() {
-        pruneSubsets(board.subGrids)
-        pruneSubsets(board.rows)
-        pruneSubsets(board.columns)
+    private fun prunePossibilites(): Boolean {
+        var pruned = false
+        pruned = pruned || pruneSubsets(board.subGrids)
+        pruned = pruned || pruneSubsets(board.rows)
+        pruned = pruned || pruneSubsets(board.columns)
+        return pruned
     }
 
-    private fun pruneSubsets(subsets: List<List<Cell>>) {
+    private fun pruneSubsets(subsets: List<List<Cell>>): Boolean {
+        var pruned = false
 
         for (subset in subsets) {
             var solvedValues = board.getSolvedValuesForCells(subset)
@@ -19,8 +22,10 @@ class SudokuSolver(val board: Board) {
             // Prune away conflicts in the subset. I.e. a cell cant have a value already used in the subset
             for (cell in subset) {
                 if (cell.value == null && cell.pruneCandidates(solvedValues)) {
-                    if (cell.attemptToSolve())
+                    if (cell.attemptToSolve()) {
                         solvedValues = board.getSolvedValuesForCells(subset)
+                        pruned = true
+                    }
                 }
             }
 
@@ -32,9 +37,11 @@ class SudokuSolver(val board: Board) {
                     if (potentialCellsForValue.size == 1) {
                         potentialCellsForValue.first().value = value
                         solvedValues = board.getSolvedValuesForCells(subset)
+                        pruned = true
                     }
                 }
             }
         }
+        return pruned
     }
 }
