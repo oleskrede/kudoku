@@ -1,15 +1,15 @@
-class SudokuSolver(val board: Board) {
+class SudokuSolver(val sudokuBoard: SudokuBoard) {
     fun solve() {
-        while (board.hasUnsolvedCells()) {
+        while (sudokuBoard.hasUnsolvedCells()) {
             if (!prunePossibilites()) break
         }
     }
 
     private fun prunePossibilites(): Boolean {
         var pruned = false
-        pruned = pruned || pruneSubsets(board.subGrids)
-        pruned = pruned || pruneSubsets(board.rows)
-        pruned = pruned || pruneSubsets(board.columns)
+        pruned = pruned || pruneSubsets(sudokuBoard.subGrids)
+        pruned = pruned || pruneSubsets(sudokuBoard.rows)
+        pruned = pruned || pruneSubsets(sudokuBoard.columns)
         return pruned
     }
 
@@ -17,13 +17,13 @@ class SudokuSolver(val board: Board) {
         var pruned = false
 
         for (subset in subsets) {
-            var solvedValues = board.getSolvedValuesForCells(subset)
+            var solvedValues = sudokuBoard.getSolvedValuesForCells(subset)
 
             // Prune away conflicts in the subset. I.e. a cell cant have a value already used in the subset
             for (cell in subset) {
                 if (cell.value == null && cell.pruneCandidates(solvedValues)) {
                     if (cell.attemptToSolve()) {
-                        solvedValues = board.getSolvedValuesForCells(subset)
+                        solvedValues = sudokuBoard.getSolvedValuesForCells(subset)
                         pruned = true
                     }
                 }
@@ -36,7 +36,7 @@ class SudokuSolver(val board: Board) {
                         .filter { it.value == null && it.valueCandidates.contains(value) }
                     if (potentialCellsForValue.size == 1) {
                         potentialCellsForValue.first().value = value
-                        solvedValues = board.getSolvedValuesForCells(subset)
+                        solvedValues = sudokuBoard.getSolvedValuesForCells(subset)
                         pruned = true
                     }
                 }

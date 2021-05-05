@@ -1,4 +1,4 @@
-import InputHandler.Companion.stringToBoard
+import SudokuBoard.Companion.fromString
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +34,7 @@ internal class SudokuSolverTest {
     }
 
     @Test
-    fun `Solve HARD case 1`() {
+    fun `Solve EASY case 2`() {
         val case =
             """
             x8xx4xx63
@@ -63,7 +63,7 @@ internal class SudokuSolverTest {
     }
 
     @Test
-    fun `Solve HARD case 2`() {
+    fun `Solve EASY case 3`() {
         val case =
             """
             xx46xxxx5
@@ -92,8 +92,8 @@ internal class SudokuSolverTest {
     }
 
     private fun solveAndVerifyCase(inputCase: String, inputSolution: String) {
-        val board = stringToBoard(inputCase)
-        val solution = stringToBoard(inputSolution)
+        val board = fromString(inputCase)
+        val solution = fromString(inputSolution)
 
         SudokuSolver(board).solve()
 

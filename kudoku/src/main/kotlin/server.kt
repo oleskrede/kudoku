@@ -1,4 +1,5 @@
-import InputHandler.Companion.stringToBoard
+import SudokuBoard.Companion.fromString
+import SudokuBoard.Companion.toPrettyString
 import io.ktor.application.call
 import io.ktor.html.respondHtml
 import io.ktor.http.HttpStatusCode
@@ -14,7 +15,7 @@ import kotlinx.html.title
 
 fun HTML.index() {
     head {
-        title("Hello from Ktor!")
+        title("Kudoku")
     }
     body {
         div {
@@ -51,18 +52,18 @@ fun main() {
             268437159
         """.trimIndent()
 
-    val testCase = stringToBoard(inputTestCase)
+    val testCase = fromString(inputTestCase)
     println("Test case:")
-    println(testCase.toPrettyString())
+    println(toPrettyString(testCase))
 
-    val testSolution = stringToBoard(inputTestSolution)
+    val testSolution = fromString(inputTestSolution)
     println("Test solution:")
-    println(testSolution.toPrettyString())
+    println(toPrettyString(testSolution))
 
     val sudokuSolver = SudokuSolver(testCase)
     sudokuSolver.solve()
     println("SudokuSolver solution:")
-    println(sudokuSolver.board.toPrettyString())
+    println(toPrettyString(sudokuSolver.sudokuBoard))
 
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         routing {
@@ -72,3 +73,9 @@ fun main() {
         }
     }.start(wait = true)
 }
+//
+// fun solveSudoku(input: String): String {
+//    val sudokuSolver = SudokuSolver(fromString(input))
+//    sudokuSolver.solve()
+//    return toPrettyString(sudokuSolver.sudokuBoard)
+// }
