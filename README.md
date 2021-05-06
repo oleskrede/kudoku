@@ -13,7 +13,7 @@ The you can open the (very basic) web-interface on `localhost:8080`.
 
 
 
-### How it works
+## Algorithm
 It is basically a depth-first search sprinkled with some basic candidate pruning logic.  
 The solver first solves as much as it can with the candidate pruning. If it isn't enough to find a solution, then it goes one level deeper in the search-tree.
 
