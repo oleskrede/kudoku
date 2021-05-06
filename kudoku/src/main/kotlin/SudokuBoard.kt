@@ -5,7 +5,7 @@ import java.lang.IllegalArgumentException
  * @property cells the cells in a list, corresponding to reading the board left-to-right, top-to-bottom (like text)
  * @property guess used when this board is derived from a parent by making a guess <cellIndex, valueGuessed>
  */
-class SudokuBoard(val cells: List<Cell>, val guess: Pair<Int, Int>? = null) {
+class SudokuBoard(val cells: List<Cell>) {
 
     // All the 3x3 subgrids of the board, for easy access
     val subGrids = cells.chunked(3)
@@ -31,14 +31,6 @@ class SudokuBoard(val cells: List<Cell>, val guess: Pair<Int, Int>? = null) {
             .toSet()
     }
 
-    fun hasUnsolvedCells(): Boolean {
-        for (cell in cells) {
-            if (cell.value == null)
-                return true
-        }
-        return false
-    }
-
     // Plz baby jesus, tell me we have found the correct solution
     fun isSolved(): Boolean {
         if (hasUnsolvedCells()) return false
@@ -55,6 +47,14 @@ class SudokuBoard(val cells: List<Cell>, val guess: Pair<Int, Int>? = null) {
         }
 
         return true
+    }
+
+    private fun hasUnsolvedCells(): Boolean {
+        for (cell in cells) {
+            if (cell.value == null)
+                return true
+        }
+        return false
     }
 
     // Indicates if we have reached a dead-end in our solution attempt (i.e. the guess is wrong)
@@ -82,7 +82,7 @@ class SudokuBoard(val cells: List<Cell>, val guess: Pair<Int, Int>? = null) {
          * - empty cells should be represented by non-digit character, e.g. 'x' or space
          * - newlines are ignored
          */
-        fun fromString(sudokuStringRepresentation: String, guess: Pair<Int, Int>? = null): SudokuBoard {
+        fun fromString(sudokuStringRepresentation: String): SudokuBoard {
             val board = sudokuStringRepresentation.replace("\n", "")
                 .map { if (it.isDigit()) Cell(Character.getNumericValue(it)) else Cell() }
 
@@ -103,6 +103,15 @@ class SudokuBoard(val cells: List<Cell>, val guess: Pair<Int, Int>? = null) {
                     prefix = hLine,
                     postfix = hLine
                 ) { rows -> rows.joinToString(separator = " |\n| ", prefix = "| ", postfix = " |") }
+        }
+
+        fun clone(sudokuBoard: SudokuBoard): SudokuBoard {
+            val clone = fromString(sudokuBoard.cells.joinToString(separator = ""))
+            for (i in sudokuBoard.cells.indices) {
+                clone.cells[i].valueCandidates.clear()
+                clone.cells[i].valueCandidates.addAll(sudokuBoard.cells[i].valueCandidates)
+            }
+            return clone
         }
     }
 }

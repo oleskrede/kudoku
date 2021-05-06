@@ -41,29 +41,25 @@ fun main() {
 
     val inputTestSolution =
         """
-            714683295
-            396125487
-            582974631
-            127859346
-            849361572
-            653742918
-            935218764
-            471596823
-            268437159
+            125394678
+            849657123
+            376218594
+            487965312
+            912873456
+            653421987
+            761532849
+            594786231
+            238149765
         """.trimIndent()
-
-    val testCase = fromString(inputTestCase)
-    println("Test case:")
-    println(toPrettyString(testCase))
 
     val testSolution = fromString(inputTestSolution)
     println("Test solution:")
     println(toPrettyString(testSolution))
 
-    val sudokuSolver = SudokuSolver(testCase)
-    sudokuSolver.solve()
+    val sudokuSolver = SudokuSolver(inputTestCase)
+    val solverSolution = sudokuSolver.solve()
     println("SudokuSolver solution:")
-    println(toPrettyString(sudokuSolver.sudokuBoard))
+    println(toPrettyString(solverSolution))
 
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         routing {
