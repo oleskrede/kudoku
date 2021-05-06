@@ -16,10 +16,10 @@ class SudokuBoard(val cells: List<Cell>) {
         .flatten()
         .map { it.flatten() }
 
-    // All rows (1x9) of the board, for easy access
+    // All rows of the board, for easy access
     val rows = cells.chunked(9)
 
-    // All columns (9x1) of the board, for easy access
+    // All columns of the board, for easy access
     val columns = cells.withIndex()
         .groupBy { it.index % 9 }
         .map { indexed -> indexed.value.map { it.value } }

@@ -20,6 +20,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:1.4.0")
     implementation("io.ktor:ktor-html-builder:1.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
+    implementation("io.ktor:ktor-mustache:1.4.0")
 }
 
 tasks.test {
@@ -31,5 +32,5 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClassName = "ServerKt"
+    mainClassName = "ApplicationKt"
 }

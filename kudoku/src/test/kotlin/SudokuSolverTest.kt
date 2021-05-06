@@ -1,6 +1,7 @@
 import SudokuBoard.Companion.fromString
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class SudokuSolverTest {
 
@@ -91,14 +92,51 @@ internal class SudokuSolverTest {
         solveAndVerifyCase(case, solution)
     }
 
+    @Test
+    fun `Solve HARD case 1`() {
+        val case =
+            """
+            xx53xxxxx
+            8xxxxxx2x
+            x7xx1x5xx
+            4xxxx53xx
+            x1xx7xxx6
+            xx32xxx8x
+            x6x5xxxx9
+            xx4xxxx3x
+            xxxxx97xx
+            """.trimIndent()
+
+        val solution = SudokuSolver(case).solve()
+        assertTrue(solution.isSolved())
+    }
+
+    @Test
+    fun `Solve empty case`() {
+        val case =
+            """
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            xxxxxxxxx
+            """.trimIndent()
+
+        val solution = SudokuSolver(case).solve()
+        assertTrue(solution.isSolved())
+    }
+
     private fun solveAndVerifyCase(inputCase: String, inputSolution: String) {
-        val board = fromString(inputCase)
+
+        val solverSolution = SudokuSolver(inputCase).solve()
         val solution = fromString(inputSolution)
 
-        SudokuSolver(board).solve()
-
         for (i in 0..80) {
-            assertEquals(solution.cells[i].value, board.cells[i].value)
+            assertEquals(solution.cells[i].value, solverSolution.cells[i].value)
         }
     }
 }
