@@ -9,8 +9,6 @@ class SudokuSolver(sudokuBoardString: String) {
 
     private fun popCandidate() = if (solutionCandidates.isNotEmpty()) solutionCandidates.removeLast() else null
 
-    private var pruningProgress = false // TODO lay this foolish mutable state to rest
-
     fun solve(): SudokuBoard? {
         var current = popCandidate()
         while (current != null && !current.isSolved()) {
@@ -26,12 +24,11 @@ class SudokuSolver(sudokuBoardString: String) {
     }
 
     private fun pruneCandidates(current: SudokuBoard) {
-        pruningProgress = true
+        var pruningProgress = true
         while (pruningProgress) {
-            pruningProgress = false
-            pruneSubsets(current, current.subGrids)
-            pruneSubsets(current, current.rows)
-            pruneSubsets(current, current.columns)
+            pruningProgress = pruneSubsets(current, current.subGrids)
+            pruningProgress = pruningProgress || pruneSubsets(current, current.rows)
+            pruningProgress = pruningProgress || pruneSubsets(current, current.columns)
         }
     }
 
@@ -47,7 +44,8 @@ class SudokuSolver(sudokuBoardString: String) {
         }
     }
 
-    private fun pruneSubsets(current: SudokuBoard, subsets: List<List<Cell>>) {
+    private fun pruneSubsets(current: SudokuBoard, subsets: List<List<Cell>>): Boolean {
+        var pruningProgress = false
         for (subset in subsets) {
             var solvedValues = current.getSolvedValuesForCells(subset)
 
@@ -74,5 +72,6 @@ class SudokuSolver(sudokuBoardString: String) {
                 }
             }
         }
+        return pruningProgress
     }
 }
