@@ -1,5 +1,7 @@
-import SudokuBoard.Companion.fromString
+package sudoku
+
 import org.junit.jupiter.api.Test
+import sudoku.SudokuBoard.Companion.fromString
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -7,8 +9,7 @@ internal class SudokuSolverTest {
 
     @Test
     fun `Solve EASY case 1`() {
-        val case =
-            """
+        val case = """
             1x8xxxx3x
             2xx1x5xxx
             xx7x89154
@@ -18,9 +19,8 @@ internal class SudokuSolverTest {
             81396x4xx
             xxx3x7xx2
             x2xxxx3x6
-            """.trimIndent()
-        val solution =
-            """
+        """.trimIndent()
+        val solution = """
             158674239
             294135687
             637289154
@@ -30,14 +30,13 @@ internal class SudokuSolverTest {
             813962475
             469357812
             725841396
-            """.trimIndent()
+        """.trimIndent()
         solveAndVerifyCase(case, solution)
     }
 
     @Test
     fun `Solve EASY case 2`() {
-        val case =
-            """
+        val case = """
             x8xx4xx63
             xxx8xx7x9
             7x3xxxx14
@@ -47,9 +46,8 @@ internal class SudokuSolverTest {
             16xxxx2x5
             5x8xx1xxx
             37xx6xx4x
-            """.trimIndent()
-        val solution =
-            """
+        """.trimIndent()
+        val solution = """
             281749563
             654813729
             793526814
@@ -59,14 +57,13 @@ internal class SudokuSolverTest {
             169478235
             548231697
             372965148
-            """.trimIndent()
+        """.trimIndent()
         solveAndVerifyCase(case, solution)
     }
 
     @Test
     fun `Solve EASY case 3`() {
-        val case =
-            """
+        val case = """
             xx46xxxx5
             3xxx2xxxx
             58x9xxxx1
@@ -76,9 +73,8 @@ internal class SudokuSolverTest {
             9xxxx8x64
             xxxx9xxx3
             2xxxx71xx
-            """.trimIndent()
-        val solution =
-            """
+        """.trimIndent()
+        val solution = """
             714683295
             396125487
             582974631
@@ -88,14 +84,13 @@ internal class SudokuSolverTest {
             935218764
             471596823
             268437159
-            """.trimIndent()
+        """.trimIndent()
         solveAndVerifyCase(case, solution)
     }
 
     @Test
     fun `Solve HARD case 1`() {
-        val case =
-            """
+        val case = """
             xx53xxxxx
             8xxxxxx2x
             x7xx1x5xx
@@ -105,7 +100,7 @@ internal class SudokuSolverTest {
             x6x5xxxx9
             xx4xxxx3x
             xxxxx97xx
-            """.trimIndent()
+        """.trimIndent()
 
         val solution = SudokuSolver(case).solve()
         assertTrue(solution.isSolved())
@@ -113,8 +108,7 @@ internal class SudokuSolverTest {
 
     @Test
     fun `Solve empty case`() {
-        val case =
-            """
+        val case = """
             xxxxxxxxx
             xxxxxxxxx
             xxxxxxxxx
@@ -124,7 +118,7 @@ internal class SudokuSolverTest {
             xxxxxxxxx
             xxxxxxxxx
             xxxxxxxxx
-            """.trimIndent()
+        """.trimIndent()
 
         val solution = SudokuSolver(case).solve()
         assertTrue(solution.isSolved())

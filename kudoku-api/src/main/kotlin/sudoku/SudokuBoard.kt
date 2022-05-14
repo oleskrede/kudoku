@@ -1,20 +1,21 @@
+package sudoku
+
 import java.lang.IllegalArgumentException
 
 /**
  * A Sudoku board representation with additional
- * @property cells the cells in a list, corresponding to reading the board left-to-right, top-to-bottom (like text)
- * @property guess used when this board is derived from a parent by making a guess <cellIndex, valueGuessed>
+ * @property cells the cells in a list, corresponding to reading the board left-to-right, top-to-bottom (like text a book)
  */
 class SudokuBoard(val cells: List<Cell>) {
 
     // All the 3x3 subgrids of the board, for easy access
-    val subGrids = cells.chunked(3)
+    val subGrids = cells.asSequence().chunked(3)
         .withIndex()
         .groupBy { it.index % 3 }
         .map { indexed -> indexed.value.map { it.value } }
         .map { it.chunked(3) }
         .flatten()
-        .map { it.flatten() }
+        .map { it.flatten() }.toList()
 
     // All rows of the board, for easy access
     val rows = cells.chunked(9)
@@ -31,7 +32,6 @@ class SudokuBoard(val cells: List<Cell>) {
             .toSet()
     }
 
-    // Plz baby jesus, tell me we have found the correct solution
     fun isSolved(): Boolean {
         if (hasUnsolvedCells()) return false
 
@@ -75,6 +75,8 @@ class SudokuBoard(val cells: List<Cell>) {
         return cells.chunked(9)
             .joinToString(separator = "\n") { row -> row.joinToString(separator = "") }
     }
+
+    fun toOneLineString(): String = cells.joinToString(separator = "")
 
     companion object {
         /**

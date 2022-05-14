@@ -1,3 +1,5 @@
+package sudoku
+
 class Cell(var value: Int? = null) {
     val valueCandidates = (1..9).toMutableSet()
 

@@ -1,5 +1,7 @@
-import SudokuBoard.Companion.clone
-import SudokuBoard.Companion.fromString
+package sudoku
+
+import sudoku.SudokuBoard.Companion.clone
+import sudoku.SudokuBoard.Companion.fromString
 
 class SudokuSolver(sudokuBoardString: String) {
 
@@ -11,7 +13,8 @@ class SudokuSolver(sudokuBoardString: String) {
     private var pruningProgress = false
 
     fun solve(): SudokuBoard {
-        while (!currentCandidate().isSolved()) {
+        var current = currentCandidate()
+        while (current != null && !current.isSolved()) {
             pruneCandidates()
             if (currentCandidate().isSolved()) break
             if (currentCandidate().isUnsolvable()) {
@@ -19,6 +22,7 @@ class SudokuSolver(sudokuBoardString: String) {
             } else {
                 makeGuesses()
             }
+            current = currentCandidate()
         }
         return currentCandidate()
     }
@@ -46,9 +50,6 @@ class SudokuSolver(sudokuBoardString: String) {
         }
     }
 
-    /**
-     * TODO Add more advanced pruning logic for faster solutions
-     */
     private fun pruneSubsets(subsets: List<List<Cell>>) {
         for (subset in subsets) {
             var solvedValues = currentCandidate().getSolvedValuesForCells(subset)
