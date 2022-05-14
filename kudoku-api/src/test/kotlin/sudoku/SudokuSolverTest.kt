@@ -102,7 +102,7 @@ internal class SudokuSolverTest {
             xxxxx97xx
         """.trimIndent()
 
-        val solution = SudokuSolver(case).solve()
+        val solution = SudokuSolver(case).solve()!!
         assertTrue(solution.isSolved())
     }
 
@@ -120,13 +120,13 @@ internal class SudokuSolverTest {
             xxxxxxxxx
         """.trimIndent()
 
-        val solution = SudokuSolver(case).solve()
+        val solution = SudokuSolver(case).solve()!!
         assertTrue(solution.isSolved())
     }
 
     private fun solveAndVerifyCase(inputCase: String, inputSolution: String) {
 
-        val solverSolution = SudokuSolver(inputCase).solve()
+        val solverSolution = SudokuSolver(inputCase).solve()!!
         val solution = fromString(inputSolution)
 
         for (i in 0..80) {

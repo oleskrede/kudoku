@@ -35,8 +35,8 @@ fun Application.module() {
             logger.info { "Solving <$uSudokuBoardString>" }
             val result = SudokuSolver(uSudokuBoardString).solve()
 
-            if (!result.isSolved()) {
-                logger.info { "Solution not found <${result.toOneLineString()}>" }
+            if (result == null || !result.isSolved()) {
+                logger.info { "Solution not found <${result?.toOneLineString()}>" }
                 return@get call.respond(
                     HttpStatusCode.BadRequest,
                     KudokuError(KudokuErrorCode.NOT_SOLVABLE, "The input sudoku is not solvable"),
@@ -53,9 +53,9 @@ fun Application.module() {
 
 data class KudokuSolution(val input: String, val solution: String)
 
-private data class KudokuError(val errorCodes: KudokuErrorCode, val description: String)
+data class KudokuError(val errorCodes: KudokuErrorCode, val description: String)
 
-private enum class KudokuErrorCode() {
+enum class KudokuErrorCode() {
     INVALID_INPUT,
     NOT_SOLVABLE
 }
